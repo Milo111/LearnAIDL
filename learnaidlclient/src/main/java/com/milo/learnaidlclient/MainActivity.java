@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.milo.learnaidlserver.IAddInterface;
@@ -21,9 +22,7 @@ import java.sql.Array;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "aidlclient-MainActivity";
-    private EditText etNum1;
-    private EditText etNum2;
-    private EditText etResult;
+    private TextView textView;
     private Button btnAdd;
     private IAddInterface iAddInterface;
     private ServiceConnection conn = new ServiceConnection() {
@@ -58,21 +57,17 @@ public class MainActivity extends AppCompatActivity {
     private int age;
 
     private void initView() {
-        etNum1 = (EditText) findViewById(R.id.num1);
-        etNum2 = (EditText) findViewById(R.id.num2);
-        etResult = (EditText) findViewById(R.id.result);
+        textView = (TextView) findViewById(R.id.textView);
         btnAdd = (Button) findViewById(R.id.add);
         age = 1;
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                int num1 = Integer.parseInt(etNum1.getText().toString());
-//                int num2 = Integer.parseInt(etNum2.getText().toString());
                 if (iAddInterface != null) {
                     try {
                         iAddInterface.setPerson(new Person("小" + age, age));
                         age++;
-                        etResult.setText(iAddInterface.getPerson().toString());
+                        textView.setText(iAddInterface.getPerson().toString());
                     } catch (RemoteException e) {
                         e.printStackTrace();
                         Toast.makeText(MainActivity.this, "服务连接失败！", Toast.LENGTH_SHORT).show();
